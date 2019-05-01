@@ -42,7 +42,7 @@
                 @toggleLock="handleLockToggle"
                 @setTurnAi="handleSetAIturn"
             />
-            <SplitButton :mode="mode" />
+            <SplitButton :mode="mode" @gameMode="modeSwitch" />
             <WinBanner />
             <Button @clicked="resetGame">Reset</Button>
         </div>
@@ -75,7 +75,7 @@ export default {
             mode: "2Player"
         };
     },
-    created: function() {
+    mounted: function() {
         this.resetGame();
     },
     methods: {
@@ -87,6 +87,13 @@ export default {
         },
         handleWin() {
             this.locked = true;
+        },
+        modeSwitch() {
+            this.resetGame()
+            this.mode = this.mode === "2Player" ? "ai" : "2Player";
+            if(this.mode === 'ai') {
+                this.turn = 1
+            }
         },
         resetGame() {
             this.game = uuid();
